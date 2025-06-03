@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art Gallery</title>
+  <link rel="stylesheet" href="2-style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#exhibitions">Gallery/Exhibitions</a></li>
+      <li><a href="#">Events</a></li>
+      <li><a href="#">Artists</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Experience contemporary </h1 <br> <h1>art like never before</h1>
+    <button onclick="document.getElementById('featured').scrollIntoView({ behavior: 'smooth' })">Learn More</button>
+  </section>
+
+  <!-- Featured Art Section -->
+  <section class="featured" id="featured">
+    <div class="art-details">
+      <h2 id="art-title">Art Title 1</h2>
+      <p id="art-description">Description of the artwork goes here.</p>
+      <button onclick="location.href='art-details.html'">Learn More</button>
+    </div>
+    <div class="art-image">
+      <img id="art-img" src="./artworks/art1.jpg" alt="Featured Art">
+    </div>
+  </section>
+
+  <!-- Exhibitions Section -->
+  <section class="exhibitions" id="exhibitions">
+    <h2>Exhibitions</h2>
+    <div class="exhibition-grid" id="exhibition-grid">
+      <!-- Example exhibition cards -->
+      <div class="exhibition-card">
+        <img src="./artworks/exhibit1.jpg" alt="Exhibit 1">
+        <p>Exhibition Name 1</p>
+      </div>
+      <div class="exhibition-card">
+        <img src="./artworks/exhibit2.jpg" alt="Exhibit 2">
+        <p>Exhibition Name 2</p>
+      </div>
+      <div class="exhibition-card">
+        <img src="./artworks/art3.jpg" alt="Exhibit 3">
+        <p>Exhibition Name 3</p>
+      </div>
+    </div>
+    <button onclick="loadMoreExhibitions()">Load More</button>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Contact us: info@artgallery.com | Phone: 123-456-7890</p>
+    <p>&copy; 2025 Art Gallery. All rights reserved.</p>
+  </footer>
+
+  <script src="3-script.js"></script>
+</body>
+</html>

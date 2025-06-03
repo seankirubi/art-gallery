@@ -1,0 +1,159 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #fefefe;
+  color: #333;
+}
+
+/* Navigation Bar */
+.navbar {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 10px 30px;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar a:hover {
+  color: #555;
+}
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url(./artworks/exhibit3.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: whitesmoke;
+}
+
+.hero button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.hero button:hover {
+  background: #555;
+}
+
+/* Featured Art */
+.featured {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 10%;
+  background: #f4f4f4;
+  height: 100vh;
+}
+
+.art-details {
+  max-width: 50%;
+}
+
+.art-image img {
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+  transition: opacity 1s;
+}
+
+.art-details button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Exhibitions */
+.exhibitions {
+  padding: 60px 10%;
+  background: #fff;
+  text-align: center;
+}
+
+.exhibition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.exhibition-card img {
+  cursor: pointer;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+.exhibition-card{
+  opacity: 0.7;
+  transition: all 0.3s ease-in-out;
+}
+
+.exhibition-card:hover{
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.exhibitions button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Footer */
+footer {
+  padding: 20px;
+  background: #333;
+  color: white;
+  text-align: center;
+}
