@@ -40,6 +40,29 @@ body {
 .navbar a:hover {
   color: #555;
 }
+/* Making the nav bar transition in the about us page */
+/* Expanded initial state */
+.navbar.expanded {
+  width: 100%;
+  top: 0;
+  left: 0;
+  transform: none;
+  border-radius: 0;
+  padding: 20px;
+  transition: all 0.4s ease-in-out;
+  text-align: center;
+}
+
+/* Shrunk/Scrolled state (original style) */
+.navbar.shrunk {
+  width: auto;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 30px;
+  padding: 10px 30px;
+  transition: all 0.4s ease;
+}
 
 /* Hero Section */
 .hero {
@@ -156,4 +179,46 @@ footer {
   background: #333;
   color: white;
   text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar ul {
+    
+    gap: 10px;
+  }
+
+  .featured {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .art-details,
+  .art-image img {
+    max-width: 100%;
+  }
+
+  .hero h1 {
+    font-size: 2em;
+  }
+
+  .exhibition-card img {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.5em;
+  }
+  .hero button,
+  .art-details button,
+  .exhibitions button {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+
+  .navbar {
+    padding: 10px 15px;
+  }
 }
