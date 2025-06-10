@@ -436,6 +436,9 @@
 
         /* RESPONSIVE DESIGN */
         @media (max-width: 768px) {
+            .exhibition-showcase {
+        min-height: 600px; /* Increase height for mobile */
+            }
             .nav-menu {
                 position: fixed;
                 left: -100%;
@@ -461,6 +464,8 @@
                 grid-template-columns: 1fr;
                 gap: 2rem;
                 text-align: center;
+                position: relative;
+                display: none;
             }
 
             .exhibition-info h1 {
@@ -479,4 +484,9 @@
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 gap: 1rem;
             }
+
+            .exhibition-slide.active {
+              display: grid; /* Show active slide */
+          }
+          
         }
