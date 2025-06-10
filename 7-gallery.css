@@ -41,8 +41,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 1000;
-            
+            z-index: 1000;  
         }
 
         .nav-container {
@@ -224,25 +223,39 @@
         }
 
         .carousel {
-            position: relative;
+             position: relative;
             height: 300px;
             overflow: hidden;
-        }
-
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease;
-            height: 100%;
-        }
-
-        .carousel-slide {
-            min-width: 33.333%;
-            padding: 0 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+        .carousel-track {
+            display: flex;
+            transition: transform 0.8s ease;
+            height: 100%;
+            width: 500%; /* 5 slides * 100% */
+        }
+
+        .carousel-slide {
+            width: 20%; /* 100% / 5 slides */
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+        }
+
+        .carousel-slide.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+        .carousel-slide.center .carousel-image {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-hover);
+    filter: none;
+}
         .carousel-image {
             width: 100%;
             height: 250px;
@@ -251,6 +264,26 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
+
+        .carousel-slide.side .carousel-image {
+    filter: blur(3px);
+    transform: scale(0.8);
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+    .carousel-slide {
+        width: 100%;
+    }
+    
+    .carousel-slide.side {
+        display: none;
+    }
+    
+    .carousel-slide.center .carousel-image {
+        transform: scale(1);
+    }
+}
 
         .carousel-slide:not(.center) .carousel-image {
             filter: blur(3px);
