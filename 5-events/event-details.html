@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art & Technology Summit - Lumina Gallery</title>
+    <link rel="stylesheet" href="../10-navbar/navbar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            height: 100vh;
+            background: #000000;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.03) 50%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, rgba(255, 255, 255, 0.03) 50%, transparent 51%);
+            background-size: 60px 60px;
+            animation: grid-shift 10s linear infinite;
+        }
+
+        @keyframes grid-shift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        .hero-content {
+            text-align: left;
+            z-index: 2;
+            max-width: 1200px;
+            padding: 0 2rem;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-title .highlight {
+            font-weight: 700;
+            color: #4ecdc4;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: #cccccc;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .event-date {
+            font-size: 1rem;
+            color: #4ecdc4;
+            font-weight: 500;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cta-button {
+            background: transparent;
+            color: #ffffff;
+            padding: 1rem 2rem;
+            border: 2px solid #4ecdc4;
+            border-radius: 0;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background: #4ecdc4;
+            color: #000000;
+            transform: translateX(5px);
+        }
+
+        .hero-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            transform: rotate(15deg);
+        }
+
+        .visual-card {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(78, 205, 196, 0.05));
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .visual-card:hover {
+            background: rgba(78, 205, 196, 0.2);
+            transform: scale(1.1);
+        }
+
+        .visual-card:nth-child(1) { animation: float-card 6s ease-in-out infinite; }
+        .visual-card:nth-child(2) { animation: float-card 6s ease-in-out infinite 1s; }
+        .visual-card:nth-child(3) { animation: float-card 6s ease-in-out infinite 2s; }
+        .visual-card:nth-child(4) { animation: float-card 6s ease-in-out infinite 3s; }
+        .visual-card:nth-child(5) { animation: float-card 6s ease-in-out infinite 4s; }
+        .visual-card:nth-child(6) { animation: float-card 6s ease-in-out infinite 5s; }
+
+        @keyframes float-card {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .content-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+           
+        }
+
+        .event-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 5rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .info-card h3 {
+            color: #4ecdc4;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .featured-art {
+            margin: 5rem 0;
+        }
+
+        .art-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .art-piece {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .art-piece:hover {
+            transform: scale(1.05);
+        }
+
+        .art-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .art-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .art-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 2rem;
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+        }
+
+        .art-piece:hover .art-overlay {
+            transform: translateY(0);
+        }
+
+        .art-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .art-artist {
+            color: #4ecdc4;
+            font-size: 1rem;
+        }
+
+        .speakers-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 5rem 2rem;
+            margin: 3rem 0;
+            border-radius: 30px;
+        }
+
+        .speakers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 3rem auto 0;
+        }
+
+        .speaker-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .speaker-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .speaker-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .speaker-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .speaker-title {
+            color: #4ecdc4;
+            font-size: 0.9rem;
+        }
+
+        .schedule-section {
+            margin: 5rem 0;
+        }
+
+        .schedule-timeline {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .timeline-time {
+            width: 100px;
+            font-weight: 600;
+            color: #4ecdc4;
+            margin-right: 2rem;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-shape {
+            position: absolute;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50%;
+            animation: float-around 20s infinite ease-in-out;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float-around {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            25% { transform: translateY(-30px) translateX(20px) rotate(90deg); }
+            50% { transform: translateY(0px) translateX(40px) rotate(180deg); }
+            75% { transform: translateY(30px) translateX(20px) rotate(270deg); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .hero-text {
+                max-width: none;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .timeline-time {
+                margin-bottom: 1rem;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+     <script src="../10-navbar/navbar.js"></script>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <div class="floating-elements">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
+
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Art & <span class="highlight">Technology</span> Summit</h1>
+                <p class="hero-subtitle">Where Digital Dreams Meet Artistic Vision. Experience the future of creative expression through cutting-edge technology and innovative artistry.</p>
+                <div class="event-date">March 15-17, 2025 | Lumina Gallery</div>
+                <a href="#register" class="cta-button">Reserve Your Spot</a>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-grid">
+                    <div class="visual-card">🎨</div>
+                    <div class="visual-card">🤖</div>
+                    <div class="visual-card">🌐</div>
+                    <div class="visual-card">💡</div>
+                    <div class="visual-card">🎭</div>
+                    <div class="visual-card">🔮</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <h2 class="section-title">Event Overview</h2>
+        <div class="event-info">
+            <div class="info-card">
+                <h3>🎨 Immersive Experience</h3>
+                <p>Step into the future of art where technology amplifies creativity. Experience interactive installations, AI-generated masterpieces, and virtual reality art spaces that blur the boundaries between the physical and digital worlds.</p>
+            </div>
+            <div class="info-card">
+                <h3>🚀 Innovation Showcase</h3>
+                <p>Discover groundbreaking technologies reshaping the art world. From blockchain-based art authentication to augmented reality exhibitions, witness the tools that are revolutionizing how we create, share, and experience art.</p>
+            </div>
+            <div class="info-card">
+                <h3>🤝 Networking Hub</h3>
+                <p>Connect with visionary artists, tech innovators, gallery owners, and collectors. Build meaningful relationships in an environment designed to foster collaboration between the art and technology communities.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-art">
+        <div class="content-section">
+            <h2 class="section-title">Featured Exhibitions</h2>
+            <div class="art-grid">
+                <div class="art-piece">
+                    <div class="art-image">
+                        🌐 Neural Canvas
+                        <div class="art-overlay">
+                            <div class="art-title">Neural Canvas</div>
+                            <div class="art-artist">By Alexandra Chen</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="art-piece">
+                    <div class="art-image" style="background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe, #00f2fe);">
+                        🎭 Quantum Portraits
+                        <div class="art-overlay">
+                            <div class="art-title">Quantum Portraits</div>
+                            <div class="art-artist">By Marcus Rodriguez</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="art-piece">
+                    <div class="art-image" style="background: linear-gradient(45deg, #a8edea, #fed6e3, #ffecd2, #fcb69f);">
+                        🔮 Digital Metamorphosis
+                        <div class="art-overlay">
+                            <div class="art-title">Digital Metamorphosis</div>
+                            <div class="art-artist">By Zara Kim</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="art-piece">
+                    <div class="art-image" style="background: linear-gradient(45deg, #667eea, #764ba2, #667eea, #764ba2);">
+                        🌊 Synthetic Landscapes
+                        <div class="art-overlay">
+                            <div class="art-title">Synthetic Landscapes</div>
+                            <div class="art-artist">By David Park</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="speakers-section">
+        <div class="content-section">
+            <h2 class="section-title">Keynote Speakers</h2>
+            <div class="speakers-grid">
+                <div class="speaker-card">
+                    <div class="speaker-avatar">AC</div>
+                    <div class="speaker-name">Dr. Alexandra Chen</div>
+                    <div class="speaker-title">AI Art Pioneer & Researcher</div>
+                </div>
+                <div class="speaker-card">
+                    <div class="speaker-avatar">MR</div>
+                    <div class="speaker-name">Marcus Rodriguez</div>
+                    <div class="speaker-title">VR Installation Artist</div>
+                </div>
+                <div class="speaker-card">
+                    <div class="speaker-avatar">ZK</div>
+                    <div class="speaker-name">Zara Kim</div>
+                    <div class="speaker-title">Blockchain Art Curator</div>
+                </div>
+                <div class="speaker-card">
+                    <div class="speaker-avatar">DP</div>
+                    <div class="speaker-name">David Park</div>
+                    <div class="speaker-title">Digital Media Theorist</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="schedule-section">
+        <div class="content-section">
+            <h2 class="section-title">Event Schedule</h2>
+            <div class="schedule-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">9:00 AM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Opening Ceremony & Welcome</div>
+                        <p>Join us for an inspiring opening that sets the stage for three days of innovation</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">10:30 AM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Keynote: "The Future of Creative AI"</div>
+                        <p>Dr. Alexandra Chen explores how artificial intelligence is transforming artistic expression</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2:00 PM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Interactive Workshop: VR Art Creation</div>
+                        <p>Hands-on experience creating immersive virtual reality art installations</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">4:30 PM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Panel: "NFTs and Digital Ownership"</div>
+                        <p>Industry experts discuss the impact of blockchain technology on art markets</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">7:00 PM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Evening Reception & Networking</div>
+                        <p>Connect with fellow attendees while experiencing live digital art performances</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Add smooth scrolling for CTA button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.content-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-bg');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.info-card, .art-piece, .speaker-card, .timeline-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

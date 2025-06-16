@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exhibitions - Future Gallery</title>
+    <link rel="stylesheet" href="../10-navbar/navbar.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .background-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #00ffff, transparent);
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #a0a0ff;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        .filter-controls {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .filter-controls::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.5), transparent);
+        }
+
+        .filter-nav {
+            display: flex;
+            background: rgba(10, 10, 15, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 8px;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
+            border-radius: 50px;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 40px;
+            z-index: 2;
+        }
+
+        .filter-btn:not(.active):hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .filter-btn.active {
+            color: #000000;
+            background: linear-gradient(45deg, #00ffff, #ffffff);
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            font-weight: 700;
+        }
+
+        .filter-dropdown {
+            display: none;
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: rgba(10, 10, 15, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 25px;
+            color: #ffffff;
+            cursor: pointer;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(20px);
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            border-color: rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .dropdown-arrow {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-toggle.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            transform: translateY(-10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .dropdown-menu.show {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(0, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .dropdown-item.active {
+            background: linear-gradient(45deg, #00ffff, #ffffff);
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .exhibitions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .exhibition-card {
+            background: rgba(20, 20, 30, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: cardAppear 0.8s ease forwards;
+        }
+
+        .exhibition-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .exhibition-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .exhibition-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            height: 250px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        .card-content {
+            padding: 2rem;
+            position: relative;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .status-upcoming {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .status-current {
+            background: rgba(255, 165, 0, 0.2);
+            border: 1px solid #ffa500;
+            color: #ffa500;
+            box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+        }
+
+        .status-past {
+            background: rgba(128, 128, 128, 0.2);
+            border: 1px solid #808080;
+            color: #808080;
+            box-shadow: 0 0 10px rgba(128, 128, 128, 0.3);
+        }
+
+        .exhibition-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .exhibition-artist {
+            color: #a0a0ff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .exhibition-dates {
+            color: #00ffff;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+        }
+
+        .exhibition-description {
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000000;
+            text-decoration: none;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+            @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .exhibitions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-nav {
+                display: none;
+            }
+
+            .filter-dropdown {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+     <script src="../10-navbar/navbar.js"></script>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    <div class="background-grid"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Exhibitions</h1>
+            <p>Experience the future of contemporary art through immersive digital installations and cutting-edge creative expression</p>
+        </div>
+
+        <div class="filter-controls">
+            <div class="filter-nav">
+                <button class="filter-btn active" data-filter="all">All Events</button>
+                <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                <button class="filter-btn" data-filter="current">Current</button>
+                <button class="filter-btn" data-filter="past">Archive</button>
+            </div>
+            
+            <div class="filter-dropdown">
+                <div class="dropdown-toggle">
+                    <span class="dropdown-text">All Events</span>
+                    <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item active" data-filter="all">All Events</button>
+                    <button class="dropdown-item" data-filter="upcoming">Upcoming</button>
+                    <button class="dropdown-item" data-filter="current">Current</button>
+                    <button class="dropdown-item" data-filter="past">Archive</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="exhibitions-grid">
+            <!-- Current Exhibition -->
+            <div class="exhibition-card current">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="status-badge status-current">Live</div>
+                    <h3 class="exhibition-title">Neural Networks</h3>
+                    <p class="exhibition-artist">Dr. Aria Chen</p>
+                    <p class="exhibition-dates">2025.06.01 - 2025.08.30</p>
+                    <p class="exhibition-description">An interactive exploration of artificial consciousness through bio-responsive installations that adapt to visitor brainwaves and emotional states in real-time.</p>
+                    <a href="#" class="cta-button">Enter Experience</a>
+                </div>
+            </div>
+
+            <!-- Upcoming Exhibitions -->
+            <div class="exhibition-card upcoming">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="status-badge status-upcoming">Incoming</div>
+                    <h3 class="exhibition-title">Quantum Realities</h3>
+                    <p class="exhibition-artist">Zara Nakamura & Alex Rivera</p>
+                    <p class="exhibition-dates">2025.09.15 - 2025.12.20</p>
+                    <p class="exhibition-description">Holographic installations exploring parallel dimensions and quantum physics through immersive light sculptures and interactive particle systems.</p>
+                    <a href="#" class="cta-button">Pre-Register</a>
+                </div>
+            </div>
+
+            <div class="exhibition-card upcoming">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="status-badge status-upcoming">Incoming</div>
+                    <h3 class="exhibition-title">Cyber Organisms</h3>
+                    <p class="exhibition-artist">The Synthetic Collective</p>
+                    <p class="exhibition-dates">2025.10.05 - 2026.01.15</p>
+                    <p class="exhibition-description">Bio-digital hybrid artworks featuring living algorithms and AI-generated life forms that evolve throughout the exhibition period.</p>
+                    <a href="#" class="cta-button">Pre-Register</a>
+                </div>
+            </div>
+
+            <div class="exhibition-card upcoming">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="status-badge status-upcoming">Incoming</div>
+                    <h3 class="exhibition-title">Temporal Flux</h3>
+                    <p class="exhibition-artist">Marcus Voidwalker</p>
+                    <p class="exhibition-dates">2025.11.20 - 2026.03.10</p>
+                    <p class="exhibition-description">Time-bending installations using advanced projection mapping and spatial audio to create experiences that challenge linear perception of reality.</p>
+                    <a href="#" class="cta-button">Pre-Register</a>
+                </div>
+            </div>
+
+            <!-- Past Exhibitions -->
+            <div class="exhibition-card past">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="status-badge status-past">Archived</div>
+                    <h3 class="exhibition-title">Digital Consciousness</h3>
+                    <p class="exhibition-artist">Luna Blackwood</p>
+                    <p class="exhibition-dates">2025.02.10 - 2025.05.25</p>
+                    <p class="exhibition-description">Mind-machine interface artworks exploring the boundary between human consciousness and artificial intelligence through neural feedback systems.</p>
+                    <a href="#" class="cta-button">View Archive</a>
+                </div>
+            </div>
+
+            <div class="exhibition-card past">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="status-badge status-past">Archived</div>
+                    <h3 class="exhibition-title">Neon Genesis</h3>
+                    <p class="exhibition-artist">Cyber Collective 2077</p>
+                    <p class="exhibition-dates">2024.11.15 - 2025.02.05</p>
+                    <p class="exhibition-description">Retro-futuristic installations combining vintage cyberpunk aesthetics with modern AR technology and interactive holographic displays.</p>
+                    <a href="#" class="cta-button">View Archive</a>
+                </div>
+            </div>
+
+            <div class="exhibition-card past">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="status-badge status-past">Archived</div>
+                    <h3 class="exhibition-title">Synthetic Dreams</h3>
+                    <p class="exhibition-artist">AI Collective</p>
+                    <p class="exhibition-dates">2024.08.20 - 2024.11.10</p>
+                    <p class="exhibition-description">Fully AI-generated artworks created by machine learning algorithms trained on human dreams and subconscious imagery patterns.</p>
+                    <a href="#" class="cta-button">View Archive</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+        const exhibitionCards = document.querySelectorAll('.exhibition-card');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        const dropdownText = document.querySelector('.dropdown-text');
+
+        // Desktop filter buttons
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                handleFilterChange(btn);
+            });
+        });
+
+        // Mobile dropdown items
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', () => {
+                handleFilterChange(item);
+                // Update dropdown text and close menu
+                dropdownText.textContent = item.textContent;
+                dropdownMenu.classList.remove('show');
+                dropdownToggle.classList.remove('active');
+            });
+        });
+
+        // Dropdown toggle
+        dropdownToggle.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('show');
+            dropdownToggle.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+                dropdownToggle.classList.remove('active');
+            }
+        });
+
+        function handleFilterChange(element) {
+            const filter = element.getAttribute('data-filter');
+
+            // Update active states for both desktop and mobile
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            dropdownItems.forEach(item => item.classList.remove('active'));
+            
+            filterBtns.forEach(btn => {
+                if (btn.getAttribute('data-filter') === filter) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            dropdownItems.forEach(item => {
+                if (item.getAttribute('data-filter') === filter) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Filter exhibitions
+            exhibitionCards.forEach((card, index) => {
+                if (filter === 'all' || card.classList.contains(filter)) {
+                    card.classList.remove('hidden');
+                    // Reset animation
+                    card.style.animation = 'none';
+                    card.offsetHeight; // Trigger reflow
+                    card.style.animation = `cardAppear 0.8s ease ${index * 0.1}s forwards`;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Initial staggered animation
+        exhibitionCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.2}s`;
+        });
+    </script>
+</body>
+</html>

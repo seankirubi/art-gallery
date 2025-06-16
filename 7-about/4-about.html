@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Nexus Art Gallery</title>
+    <link rel="stylesheet" href="../10-navbar/navbar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: #0a0a0a;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.1"/></svg>');
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 100;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: slideUp 1.2s ease-out 0.3s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: slideUp 1.2s ease-out 0.6s forwards;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: slideUp 1.2s ease-out 0.9s forwards;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(102, 126, 234, 0.6);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .section:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-number {
+            font-size: 1rem;
+            color: #667eea;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            letter-spacing: -1px;
+            margin-bottom: 30px;
+            color: #0a0a0a;
+        }
+
+        .section-intro {
+            font-size: 1.3rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .content-text p {
+            margin-bottom: 25px;
+        }
+
+        .highlight-text {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .visual-element {
+            height: 400px;
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .visual-element::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .visual-element::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 3s ease-in-out infinite reverse;
+        }
+
+        .stats-container {
+            background: #0a0a0a;
+            color: white;
+            padding: 100px 0;
+            margin: 80px 0;
+            border-radius: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 60px;
+            text-align: center;
+        }
+
+        .stat {
+            position: relative;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 100;
+            color: #667eea;
+            display: block;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .team-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 30px;
+            padding: 100px 60px;
+            margin: 80px 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
+            margin-top: 60px;
+        }
+
+        .team-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .team-name {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .team-role {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .team-bio {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .location-section {
+            background: #0a0a0a;
+            color: white;
+            border-radius: 30px;
+            padding: 100px 60px;
+            text-align: center;
+        }
+
+        .location-title {
+            font-size: 3rem;
+            font-weight: 200;
+            margin-bottom: 30px;
+        }
+
+        .location-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-top: 60px;
+        }
+
+        .location-item {
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .location-item h3 {
+            color: #667eea;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .location-item p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+            
+            .stats-container,
+            .team-section,
+            .location-section {
+                padding: 60px 30px;
+                margin: 40px 0;
+            }
+            
+            .section-header {
+                margin-bottom: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="../10-navbar/navbar.js"></script>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Nexus Art Gallery</h1>
+            <p class="hero-subtitle">Contemporary Art. Bold Visions. Limitless Expression.</p>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <h2 class="section-title">Our Vision</h2>
+                <p class="section-intro">We exist at the intersection of artistic innovation and cultural dialogue, creating spaces where art transcends boundaries.</p>
+            </div>
+            
+            <div class="content-grid">
+                <div class="content-text">
+                    <p>Founded in 2018, <span class="highlight-text">Nexus Art Gallery</span> emerged from a simple yet powerful belief: contemporary art should challenge, inspire, and connect us in ways we never imagined possible.</p>
+                    
+                    <p>Our curated exhibitions feature both established masters and emerging voices, creating a dynamic dialogue between tradition and innovation. Each piece in our collection tells a story, provokes thought, and invites viewers to see the world through new perspectives.</p>
+                    
+                    <p>We're more than a gallery—we're a cultural catalyst, fostering connections between artists, collectors, and art enthusiasts from around the globe.</p>
+                </div>
+                <div class="visual-element"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat">
+                        <span class="stat-number">200+</span>
+                        <span class="stat-label">Artists</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">75</span>
+                        <span class="stat-label">Exhibitions</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Countries</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Visitors</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <h2 class="section-title">Our Approach</h2>
+            </div>
+            
+            <div class="content-grid">
+                <div class="visual-element"></div>
+                <div class="content-text">
+                    <p>At Nexus, we believe in the <span class="highlight-text">democratization of art</span>. Our approach is rooted in accessibility, education, and authentic connection.</p>
+                    
+                    <p>We carefully select works that speak to universal human experiences while celebrating diverse perspectives. Our exhibitions are designed to be immersive journeys that engage all the senses and invite contemplation.</p>
+                    
+                    <p>Through artist talks, workshops, and community partnerships, we break down the barriers that often separate people from contemporary art, making it approachable and relevant to everyone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="team-section">
+                <div class="section-header">
+                    <div class="section-number" style="color: rgba(255,255,255,0.8);">03</div>
+                    <h2 class="section-title" style="color: white;">Meet the Team</h2>
+                    <p class="section-intro" style="color: rgba(255,255,255,0.9);">Passionate curators and art lovers dedicated to bringing you extraordinary experiences.</p>
+                </div>
+                
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-avatar">SC</div>
+                        <h3 class="team-name">Sofia Chen</h3>
+                        <p class="team-role">Founder & Creative Director</p>
+                        <p class="team-bio">Former MoMA curator with a passion for discovering groundbreaking contemporary artists.</p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar">DJ</div>
+                        <h3 class="team-name">David Kim</h3>
+                        <p class="team-role">Gallery Manager</p>
+                        <p class="team-bio">Expert in art logistics and client relations, ensuring every visit is memorable.</p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar">IR</div>
+                        <h3 class="team-name">Isabella Rivera</h3>
+                        <p class="team-role">Assistant Curator</p>
+                        <p class="team-bio">Specializes in emerging artists and digital art, bringing fresh perspectives to our collection.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="location-section">
+                <h2 class="location-title">Visit Nexus</h2>
+                <p style="font-size: 1.2rem; color: #ccc; margin-bottom: 20px;">Experience art in a space designed for discovery and inspiration</p>
+                
+                <div class="location-details">
+                    <div class="location-item">
+                        <h3>Hours</h3>
+                        <p>Tuesday - Sunday<br>11:00 AM - 7:00 PM<br><br>Private viewings available by appointment</p>
+                    </div>
+                    <div class="location-item">
+                        <h3>Location</h3>
+                        <p>1247 Creative Boulevard<br>Arts District<br>Los Angeles, CA 90013</p>
+                    </div>
+                    <div class="location-item">
+                        <h3>Connect</h3>
+                        <p>hello@nexusartgallery.com<br>(323) 555-0199<br><br>Follow us for latest exhibitions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

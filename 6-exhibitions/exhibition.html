@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metamorphosis: Digital Dreams - Nexus Gallery</title>
+    <link rel="stylesheet" href="../10-navbar/navbar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+
+        /* Hero Section */
+        .exhibition-hero {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            opacity: 0.15;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-text {
+            padding-top: 80px;
+        }
+
+        .exhibition-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .exhibition-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 100;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        .exhibition-artist {
+            font-size: 1.4rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .exhibition-dates {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .exhibition-description {
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 18px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 300% 300%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 25%;
+            animation-delay: 8s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 30%;
+            left: 70%;
+            animation-delay: 16s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
+            100% { text-shadow: 0 0 40px rgba(255, 255, 255, 0.2); }
+        }
+
+        /* Exhibition Details */
+        .exhibition-details {
+            padding: 120px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 80px;
+            margin-bottom: 80px;
+        }
+
+        .details-content h2 {
+            font-size: 2.5rem;
+            font-weight: 100;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .details-content p {
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .details-sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .sidebar-item {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .sidebar-label {
+            color: #ff6b6b;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-value {
+            color: #fff;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Artwork Gallery */
+        .artwork-gallery {
+            padding: 80px 20px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .gallery-title {
+            font-size: 3rem;
+            font-weight: 100;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .artwork-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .artwork-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .artwork-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 300% 300%;
+            animation: gradientShift 12s ease infinite;
+            position: relative;
+        }
+
+        .artwork-info {
+            padding: 25px;
+        }
+
+        .artwork-title {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .artwork-details {
+            color: #aaa;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Artist Section */
+        .artist-section {
+            padding: 120px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .artist-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .artist-image {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background-size: 200% 200%;
+            animation: gradientShift 10s ease infinite;
+        }
+
+        .artist-content h2 {
+            font-size: 2.5rem;
+            font-weight: 100;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .artist-content p {
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .artist-quote {
+            font-size: 1.3rem;
+            color: #ff6b6b;
+            font-style: italic;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid #ff6b6b;
+            margin: 30px 0;
+        }
+
+        /* Visit Info */
+        .visit-info {
+            padding: 80px 20px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .visit-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .visit-title {
+            font-size: 2.5rem;
+            font-weight: 100;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+
+        .visit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .visit-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .visit-card h3 {
+            color: #ff6b6b;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .visit-card p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .hero-visual {
+                height: 300px;
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .artist-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .artwork-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .visit-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="../10-navbar/navbar.js"></script>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+
+    <!-- Exhibition Hero -->
+    <section class="exhibition-hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <span class="exhibition-badge">Current Exhibition</span>
+                <h1 class="exhibition-title">Metamorphosis: Digital Dreams</h1>
+                <p class="exhibition-artist">Featuring Luna Rodriguez & Kai Chen</p>
+                <p class="exhibition-dates">March 15 - June 30, 2025</p>
+                <p class="exhibition-description">
+                    An immersive journey through the intersection of technology and human emotion, exploring how digital art transforms our understanding of reality and consciousness in the 21st century.
+                </p>
+                <div class="hero-actions">
+                    <a href="#gallery" class="btn-primary">
+                        View Artworks
+                        <span>→</span>
+                    </a>
+                    <a href="#visit" class="btn-secondary">
+                        Plan Visit
+                        <span>📍</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-elements">
+                    <div class="floating-shape"></div>
+                    <div class="floating-shape"></div>
+                    <div class="floating-shape"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exhibition Details -->
+    <section class="exhibition-details">
+        <div class="details-grid">
+            <div class="details-content">
+                <h2>About the Exhibition</h2>
+                <p>
+                    "Metamorphosis: Digital Dreams" presents a groundbreaking exploration of how contemporary artists are reshaping our relationship with technology through immersive digital experiences. This exhibition features works that blur the boundaries between physical and virtual realms.
+                </p>
+                <p>
+                    The exhibition showcases interactive installations, AI-generated artworks, and virtual reality experiences that challenge traditional notions of artistic creation. Visitors will encounter pieces that respond to their presence, evolving and transforming in real-time.
+                </p>
+                <p>
+                    Through carefully curated selections from Luna Rodriguez's "Neural Networks" series and Kai Chen's "Quantum Consciousness" installations, the exhibition invites viewers to question the nature of creativity, consciousness, and our digital future.
+                </p>
+                <p>
+                    Each artwork in the exhibition represents a dialogue between human intuition and machine intelligence, creating a new language of artistic expression that speaks to our contemporary moment of technological transformation.
+                </p>
+            </div>
+            <div class="details-sidebar">
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Duration</div>
+                    <div class="sidebar-value">March 15 - June 30, 2025</div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Artists</div>
+                    <div class="sidebar-value">Luna Rodriguez<br>Kai Chen</div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Medium</div>
+                    <div class="sidebar-value">Digital Art, Interactive Installations, VR</div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Gallery</div>
+                    <div class="sidebar-value">Main Exhibition Hall<br>Level 2</div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Curator</div>
+                    <div class="sidebar-value">Dr. Sarah Mitchell</div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Special Events</div>
+                    <div class="sidebar-value">Artist Talk: April 15<br>Workshop: May 20</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artwork Gallery -->
+    <section class="artwork-gallery" id="gallery">
+        <div class="gallery-container">
+            <div class="gallery-header">
+                <h2 class="gallery-title">Featured Artworks</h2>
+                <p style="color: #aaa; font-size: 1.1rem;">Discover the transformative pieces that define this groundbreaking exhibition</p>
+            </div>
+            <div class="artwork-grid">
+                <div class="artwork-card">
+                    <div class="artwork-image"></div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Neural Pathways #1</h3>
+                        <p class="artwork-details">Luna Rodriguez, 2025<br>Interactive Digital Installation<br>Dimensions Variable</p>
+                    </div>
+                </div>
+                <div class="artwork-card">
+                    <div class="artwork-image"></div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Quantum Entanglement</h3>
+                        <p class="artwork-details">Kai Chen, 2025<br>VR Experience<br>15 minutes duration</p>
+                    </div>
+                </div>
+                <div class="artwork-card">
+                    <div class="artwork-image"></div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Digital Metamorphosis</h3>
+                        <p class="artwork-details">Luna Rodriguez, 2024<br>AI-Generated Series<br>Digital prints on canvas</p>
+                    </div>
+                </div>
+                <div class="artwork-card">
+                    <div class="artwork-image"></div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Consciousness Stream</h3>
+                        <p class="artwork-details">Kai Chen, 2025<br>Interactive Projection<br>Real-time data visualization</p>
+                    </div>
+                </div>
+                <div class="artwork-card">
+                    <div class="artwork-image"></div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Synthetic Dreams</h3>
+                        <p class="artwork-details">Collaboration, 2025<br>Mixed Reality Installation<br>Augmented reality component</p>
+                    </div>
+                </div>
+                <div class="artwork-card">
+                    <div class="artwork-image"></div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Binary Emotions</h3>
+                        <p class="artwork-details">Luna Rodriguez, 2024<br>Generative Art Series<br>Algorithmic composition</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artist Section -->
+    <section class="artist-section">
+        <div class="artist-grid">
+            <div class="artist-image"></div>
+            <div class="artist-content">
+                <h2>Meet the Artists</h2>
+                <p>
+                    <strong>Luna Rodriguez</strong> is a pioneering digital artist whose work explores the intersection of artificial intelligence and human creativity. Her "Neural Networks" series has been exhibited internationally and pushes the boundaries of machine learning in artistic practice.
+                </p>
+                <p>
+                    <strong>Kai Chen</strong> creates immersive virtual reality experiences that challenge our perception of consciousness and reality. His background in neuroscience informs his approach to creating art that directly engages with how we process and understand digital information.
+                </p>
+                <div class="artist-quote">
+                    "We're not just creating art with technology - we're exploring what it means to be human in an age where the line between organic and digital consciousness continues to blur."
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visit Information -->
+    <section class="visit-info" id="visit">
+        <div class="visit-container">
+            <h2 class="visit-title">Plan Your Visit</h2>
+            <div class="visit-grid">
+                <div class="visit-card">
+                    <h3>Hours</h3>
+                    <p>Tuesday - Sunday<br>10:00 AM - 6:00 PM<br>Closed Mondays</p>
+                </div>
+                <div class="visit-card">
+                    <h3>Admission</h3>
+                    <p>General: $15<br>Students: $10<br>Members: Free<br>Children under 12: Free</p>
+                </div>
+                <div class="visit-card">
+                    <h3>Special Access</h3>
+                    <p>VR Experience by appointment<br>Interactive installations<br>Audio guide included</p>
+                </div>
+                <div class="visit-card">
+                    <h3>Accessibility</h3>
+                    <p>Wheelchair accessible<br>Audio descriptions available<br>Large print materials</p>
+                </div>
+            </div>
+            <a href="#" class="btn-primary" style="margin-top: 30px;">
+                Book Tickets
+                <span>🎫</span>
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for scroll animations
+        document.querySelectorAll('.artwork-card, .details-content, .artist-content, .visit-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(50px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(el);
+        });
+
+        // Parallax effect for floating elements
+        document.addEventListener('mousemove', function(e) {
+            const shapes = document.querySelectorAll('.floating-shape');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.4;
+                const x = mouseX * speed * 20;
+                const y = mouseY * speed * 20;
+                shape.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Artwork card hover effects
+        document.querySelectorAll('.artwork-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+
+            // Click to expand effect
+            card.addEventListener('click', function() {
+                this.style.transform = 'translateY(-5px) scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-10px) scale(1)';
+                }, 150);
+            });
+        });
+
+        // Sticky sidebar scroll effect
+        window.addEventListener('scroll', function() {
+            const sidebar = document.querySelector('.details-sidebar');
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.1;
+            
+            if (sidebar) {
+                sidebar.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        // Dynamic gradient animation speed based on scroll
+        window.addEventListener('scroll', function() {
+            const scrollPercent = window.pageYOffset / (document.body.scrollHeight - window.innerHeight);
+            const gradientElements = document.querySelectorAll('.artwork-image, .hero-visual, .artist-image');
+            
+            gradientElements.forEach(el => {
+                const speed = 8 + (scrollPercent * 12);
+                el.style.animationDuration = `${speed}s`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections - Meridian Gallery</title>
+    <link rel="stylesheet" href="../10-navbar/navbar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle at 30% 70%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(25, 25, 112, 0.3) 0%, transparent 50%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="0.5" fill="%23fff" opacity="0.05"/><circle cx="90" cy="90" r="0.3" fill="%23fff" opacity="0.03"/><circle cx="50" cy="30" r="0.4" fill="%23fff" opacity="0.04"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 200;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .collections-grid {
+            padding: 8rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .collection-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collection-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .collection-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .collection-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .collection-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .collection-subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .collection-count {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .artwork-item {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .artwork-item:hover {
+            transform: scale(1.05);
+        }
+
+        .artwork-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8) contrast(1.1);
+            transition: filter 0.3s ease;
+        }
+
+        .artwork-item:hover .artwork-image {
+            filter: brightness(1) contrast(1.2);
+        }
+
+        .artwork-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .artwork-item:hover .artwork-overlay {
+            transform: translateY(0);
+        }
+
+        .artwork-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .artwork-artist {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .view-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .view-more:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+            transform: translateX(5px);
+        }
+
+        
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .collections-grid {
+                padding: 4rem 1rem;
+            }
+            
+            .collection-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .artwork-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="../10-navbar/navbar.js"></script>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Collections</h1>
+            <p>Discover our curated selection of contemporary and classical artworks from renowned artists around the world</p>
+        </div>
+    </section>
+
+    <main class="collections-grid">
+        <div class="collection-card">
+            <div class="collection-header">
+                <div>
+                    <h2 class="collection-title">Contemporary Masters</h2>
+                    <p class="collection-subtitle">Modern Expressions</p>
+                </div>
+                <span class="collection-count">24 Works</span>
+            </div>
+            <div class="artwork-grid">
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(45deg, #FF6B6B, #4ECDC4);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Urban Pulse</div>
+                        <div class="artwork-artist">Marina Rodriguez</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(135deg, #667eea, #764ba2);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Digital Dreams</div>
+                        <div class="artwork-artist">Chen Wei</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(45deg, #f093fb, #f5576c);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Neon Nights</div>
+                        <div class="artwork-artist">Alex Thompson</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(135deg, #4facfe, #00f2fe);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Ocean Depths</div>
+                        <div class="artwork-artist">Sarah Kim</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="view-more">View Collection →</a>
+        </div>
+
+        <div class="collection-card">
+            <div class="collection-header">
+                <div>
+                    <h2 class="collection-title">Classical Heritage</h2>
+                    <p class="collection-subtitle">Timeless Beauty</p>
+                </div>
+                <span class="collection-count">18 Works</span>
+            </div>
+            <div class="artwork-grid">
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(45deg, #8B4513, #D2691E);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Renaissance Echo</div>
+                        <div class="artwork-artist">Giovanni Artusi</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(135deg, #2C3E50, #34495E);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Marble Dreams</div>
+                        <div class="artwork-artist">Isabella Forte</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(45deg, #DAA520, #FFD700);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Golden Hour</div>
+                        <div class="artwork-artist">Marcus Aurelius</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="view-more">View Collection →</a>
+        </div>
+
+        <div class="collection-card">
+            <div class="collection-header">
+                <div>
+                    <h2 class="collection-title">Emerging Voices</h2>
+                    <p class="collection-subtitle">New Perspectives</p>
+                </div>
+                <span class="collection-count">32 Works</span>
+            </div>
+            <div class="artwork-grid">
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(45deg, #43e97b, #38f9d7);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Future Visions</div>
+                        <div class="artwork-artist">Zara Okafor</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(135deg, #fa709a, #fee140);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Color Revolution</div>
+                        <div class="artwork-artist">Priya Sharma</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(45deg, #a8edea, #fed6e3);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Soft Rebellion</div>
+                        <div class="artwork-artist">Kai Nakamura</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(135deg, #ff9a9e, #fecfef);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Pink Paradigm</div>
+                        <div class="artwork-artist">Luna Martinez</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="view-more">View Collection →</a>
+        </div>
+
+        <div class="collection-card">
+            <div class="collection-header">
+                <div>
+                    <h2 class="collection-title">Abstract Explorations</h2>
+                    <p class="collection-subtitle">Beyond Form</p>
+                </div>
+                <span class="collection-count">27 Works</span>
+            </div>
+            <div class="artwork-grid">
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(45deg, #000000, #434343);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Void Whispers</div>
+                        <div class="artwork-artist">Viktor Petrov</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(135deg, #ff0084, #33001b);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Crimson Chaos</div>
+                        <div class="artwork-artist">Amara Williams</div>
+                    </div>
+                </div>
+                <div class="artwork-item">
+                    <div class="artwork-image" style="background: linear-gradient(45deg, #667eea, #764ba2);"></div>
+                    <div class="artwork-overlay">
+                        <div class="artwork-title">Infinite Loops</div>
+                        <div class="artwork-artist">David Chen</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="view-more">View Collection →</a>
+        </div>
+    </main>
+
+    <script>
+        // Mobile navigation functionality
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+        const mobileNavBackdrop = document.querySelector('.mobile-nav-backdrop');
+        const mobileNavClose = document.querySelector('.mobile-nav-close');
+
+        function openMobileNav() {
+            mobileNavOverlay.classList.add('active');
+            mobileNavBackdrop.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileNav() {
+            mobileNavOverlay.classList.remove('active');
+            mobileNavBackdrop.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        mobileMenuToggle.addEventListener('click', openMobileNav);
+        mobileNavClose.addEventListener('click', closeMobileNav);
+
+        // Close mobile nav when clicking on backdrop
+        mobileNavBackdrop.addEventListener('click', closeMobileNav);
+
+        // Close mobile nav when clicking on a link
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            item.addEventListener('click', closeMobileNav);
+        });
+
+        // Close mobile nav with escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMobileNav();
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe collection cards
+        document.querySelectorAll('.collection-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Add parallax effect to hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Dynamic color shifting for artwork previews
+        const artworkItems = document.querySelectorAll('.artwork-item');
+        artworkItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const image = item.querySelector('.artwork-image');
+                image.style.filter = 'brightness(1.1) contrast(1.3) saturate(1.2)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                const image = item.querySelector('.artwork-image');
+                image.style.filter = 'brightness(0.8) contrast(1.1)';
+            });
+        });
+    </script>
+</body>
+</html>

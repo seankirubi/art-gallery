@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test</title>
+</head>
+<body>
+  <script>
+    class DynamicNavbar {
+            constructor(config = {}) {
+                this.config = {
+                    containerId: 'navbar-container',
+                    siteName: 'YourSite',
+                    logoIcon: 'Y',
+                    navItems: [
+                        { text: 'Home', href: '#home', active: true },
+                        { text: 'About', href: '#about' },
+                        { text: 'Services', href: '#services' },
+                        { text: 'Portfolio', href: '#portfolio' },
+                        { text: 'Contact', href: '#contact' }
+                    ],
+                    ...config
+                };
+                this.isMenuOpen = false;
+                // this.init();
+            }
+          }
+    const navbar =  new DynamicNavbar()
+    console.log(navbar)
+  </script>
+</body>
+</html>

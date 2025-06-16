@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore - Luminous Gallery</title>
+    <link rel="stylesheet" href="../10-navbar/navbar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+       
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.5);
+        }
+
+        /* Floating Elements */
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Explore Sections */
+        .explore-section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Featured Collections */
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .collection-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collection-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .collection-card:hover::before {
+            left: 100%;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(78, 205, 196, 0.5);
+        }
+
+        .collection-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collection-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(1px);
+        }
+
+        .collection-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .collection-desc {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .collection-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Artist Spotlight */
+        .artists-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .artist-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .artist-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .artist-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .artist-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .artist-specialty {
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .view-works {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .view-works:hover {
+            color: #ff6b6b;
+            text-decoration: underline;
+        }
+
+        /* Interactive Gallery Preview */
+        .gallery-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .artwork-preview {
+            aspect-ratio: 1;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artwork-preview:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .artwork-preview::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .artwork-preview:hover::after {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #4ecdc4;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #4ecdc4;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .collections-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+
+            nav {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-menu {
+                width: 100%;
+                right: -100%;
+            }
+
+            .collections-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .collection-card {
+                padding: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="../10-navbar/navbar.js"></script>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+
+    
+
+    <section class="hero" id="home">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Explore Art Beyond Boundaries</h1>
+            <p>Discover extraordinary collections, emerging artists, and timeless masterpieces in our immersive digital gallery experience</p>
+            <a href="#collections" class="cta-button">Begin Your Journey</a>
+        </div>
+    </section>
+
+    <section id="collections" class="explore-section">
+        <div class="container">
+            <h2 class="section-title">Featured Collections</h2>
+            <div class="collections-grid">
+                <div class="collection-card" onclick="exploreCollection('contemporary')">
+                    <div class="collection-image">🎨</div>
+                    <h3 class="collection-title">Contemporary Visions</h3>
+                    <p class="collection-desc">Bold expressions from today's most innovative artists pushing creative boundaries</p>
+                    <div class="collection-stats">
+                        <span>47 Artworks</span>
+                        <span>12 Artists</span>
+                    </div>
+                </div>
+                
+                <div class="collection-card" onclick="exploreCollection('abstract')">
+                    <div class="collection-image">🌈</div>
+                    <h3 class="collection-title">Abstract Realms</h3>
+                    <p class="collection-desc">Journey through color, form, and emotion in these captivating abstract compositions</p>
+                    <div class="collection-stats">
+                        <span>63 Artworks</span>
+                        <span>18 Artists</span>
+                    </div>
+                </div>
+                
+                <div class="collection-card" onclick="exploreCollection('sculpture')">
+                    <div class="collection-image">🗿</div>
+                    <h3 class="collection-title">Sculptural Forms</h3>
+                    <p class="collection-desc">Three-dimensional masterpieces that transform space and challenge perception</p>
+                    <div class="collection-stats">
+                        <span>29 Artworks</span>
+                        <span>8 Artists</span>
+                    </div>
+                </div>
+                
+                <div class="collection-card" onclick="exploreCollection('digital')">
+                    <div class="collection-image">💫</div>
+                    <h3 class="collection-title">Digital Renaissance</h3>
+                    <p class="collection-desc">Where technology meets creativity in stunning digital art and NFT collections</p>
+                    <div class="collection-stats">
+                        <span>85 Artworks</span>
+                        <span>24 Artists</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="artists" class="explore-section">
+        <div class="container">
+            <h2 class="section-title">Artist Spotlight</h2>
+            <div class="artists-container">
+                <div class="artist-card" onclick="viewArtist('elena')">
+                    <div class="artist-avatar">E</div>
+                    <h3 class="artist-name">Elena Vasquez</h3>
+                    <p class="artist-specialty">Contemporary Painter</p>
+                    <a href="#" class="view-works">View Works →</a>
+                </div>
+                
+                <div class="artist-card" onclick="viewArtist('marcus')">
+                    <div class="artist-avatar">M</div>
+                    <h3 class="artist-name">Marcus Chen</h3>
+                    <p class="artist-specialty">Digital Sculptor</p>
+                    <a href="#" class="view-works">View Works →</a>
+                </div>
+                
+                <div class="artist-card" onclick="viewArtist('aria')">
+                    <div class="artist-avatar">A</div>
+                    <h3 class="artist-name">Aria Kowalski</h3>
+                    <p class="artist-specialty">Abstract Expressionist</p>
+                    <a href="#" class="view-works">View Works →</a>
+                </div>
+                
+                <div class="artist-card" onclick="viewArtist('kai')">
+                    <div class="artist-avatar">K</div>
+                    <h3 class="artist-name">Kai Thompson</h3>
+                    <p class="artist-specialty">Mixed Media Artist</p>
+                    <a href="#" class="view-works">View Works →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="explore-section" id="exhibitions">
+        <div class="container">
+            <h2 class="section-title">Featured Artworks</h2>
+            <div class="gallery-preview">
+                <div class="artwork-preview" data-title="Ethereal Dreams">🌙</div>
+                <div class="artwork-preview" data-title="Urban Symphony">🏙️</div>
+                <div class="artwork-preview" data-title="Nature's Whisper">🌿</div>
+                <div class="artwork-preview" data-title="Digital Cosmos">⭐</div>
+                <div class="artwork-preview" data-title="Emotional Depth">💭</div>
+                <div class="artwork-preview" data-title="Color Revolution">🎆</div>
+                <div class="artwork-preview" data-title="Textured Reality">🪨</div>
+                <div class="artwork-preview" data-title="Infinite Possibilities">♾️</div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Explore</h3>
+                    <a href="#collections">Collections</a>
+                    <a href="#artists">Artists</a>
+                    <a href="#exhibitions">Exhibitions</a>
+                    <a href="#home">Virtual Tours</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <a href="#contact">Newsletter</a>
+                    <a href="#contact">Social Media</a>
+                    <a href="#contact">Events</a>
+                    <a href="#contact">Membership</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <a href="#contact">Contact Us</a>
+                    <a href="#contact">FAQ</a>
+                    <a href="#contact">Accessibility</a>
+                    <a href="#contact">Privacy Policy</a>
+                </div>
+            </div>
+            <p>&copy; 2025 Luminous Gallery. Illuminating art, inspiring minds.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            const menu = document.querySelector('.mobile-menu');
+            const overlay = document.querySelector('.menu-overlay');
+            
+            toggle.classList.toggle('active');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            const menu = document.querySelector('.mobile-menu');
+            const overlay = document.querySelector('.menu-overlay');
+            
+            toggle.classList.remove('active');
+            menu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Interactive functions
+        function exploreCollection(type) {
+            // Add visual feedback
+            event.target.closest('.collection-card').style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                event.target.closest('.collection-card').style.transform = '';
+            }, 150);
+            
+            // Simulate navigation
+            console.log(`Exploring ${type} collection...`);
+            alert(`Welcome to the ${type.charAt(0).toUpperCase() + type.slice(1)} collection! This would normally navigate to the collection page.`);
+        }
+
+        function viewArtist(artist) {
+            // Add visual feedback
+            event.target.closest('.artist-card').style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                event.target.closest('.artist-card').style.transform = '';
+            }, 150);
+            
+            console.log(`Viewing artist: ${artist}`);
+            alert(`Exploring ${artist}'s portfolio! This would normally show the artist's detailed page.`);
+        }
+
+        // Add scroll effects to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(15, 15, 35, 0.98)';
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
+            } else {
+                header.style.background = 'rgba(15, 15, 35, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Add click effects to artwork previews
+        document.querySelectorAll('.artwork-preview').forEach(artwork => {
+            artwork.addEventListener('click', function() {
+                const title = this.getAttribute('data-title');
+                this.style.transform = 'scale(1.2) rotate(10deg)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
+                
+                setTimeout(() => {
+                    alert(`You're viewing "${title}" - This would open the artwork in a detailed view!`);
+                }, 150);
+            });
+        });
+
+        // Parallax effect for floating shapes
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.shape');
+            
+            shapes.forEach((shape, index) => {
+                const speed = 0.1 + (index * 0.05);
+                const yPos = -(scrolled * speed);
+                shape.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.1}deg)`;
+            });
+        });
+
+        // Add entrance animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.collection-card, .artist-card, .artwork-preview').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menu = document.querySelector('.mobile-menu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            const isClickInsideMenu = menu.contains(e.target);
+            const isClickInsideToggle = toggle.contains(e.target);
+            
+            if (!isClickInsideMenu && !isClickInsideToggle && menu.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+
+        // Add active state to navigation links based on scroll position
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a, .mobile-menu a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

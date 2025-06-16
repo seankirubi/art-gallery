@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Artists - Gallery</title>
+    <link rel="stylesheet" href="../10-navbar/navbar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hero-header {
+            padding: 120px 5% 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 5%;
+        }
+
+        .filter-section {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .artist-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .artist-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .artist-image {
+            width: 100%;
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artist-image::before {
+            content: attr(data-name);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.8);
+            font-weight: bold;
+            letter-spacing: 2px;
+            z-index: 2;
+        }
+
+        .artist-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            opacity: 0.9;
+        }
+
+        .artist-info {
+            padding: 30px;
+        }
+
+        .artist-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .artist-specialty {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .artist-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .artist-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 5%;
+            margin-top: 80px;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255,255,255,0.3);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .artists-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .filter-buttons {
+                gap: 10px;
+            }
+            
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .main-content {
+                padding: 60px 5%;
+            }
+        }
+
+        /* Artist-specific gradient colors */
+        .artist-card:nth-child(1) { --gradient-start: #ff6b6b; --gradient-end: #4ecdc4; }
+        .artist-card:nth-child(2) { --gradient-start: #667eea; --gradient-end: #764ba2; }
+        .artist-card:nth-child(3) { --gradient-start: #f093fb; --gradient-end: #f5576c; }
+        .artist-card:nth-child(4) { --gradient-start: #4facfe; --gradient-end: #00f2fe; }
+        .artist-card:nth-child(5) { --gradient-start: #43e97b; --gradient-end: #38f9d7; }
+        .artist-card:nth-child(6) { --gradient-start: #fa709a; --gradient-end: #fee140; }
+        .artist-card:nth-child(7) { --gradient-start: #a8edea; --gradient-end: #fed6e3; }
+        .artist-card:nth-child(8) { --gradient-start: #ffecd2; --gradient-end: #fcb69f; }
+    </style>
+</head>
+<body>
+     <script src="../10-navbar/navbar.js"></script>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+
+    <header class="hero-header">
+        <h1 class="hero-title">Our Artists</h1>
+        <p class="hero-subtitle">Discover the talented artists whose extraordinary works grace our gallery spaces</p>
+    </header>
+
+    <main class="main-content">
+        <section class="filter-section">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Artists</button>
+                <button class="filter-btn" data-filter="contemporary">Contemporary</button>
+                <button class="filter-btn" data-filter="abstract">Abstract</button>
+                <button class="filter-btn" data-filter="sculpture">Sculpture</button>
+                <button class="filter-btn" data-filter="photography">Photography</button>
+            </div>
+        </section>
+
+        <section class="artists-grid">
+            <div class="artist-card" data-category="abstract contemporary" onclick="openArtistPage('elena-vasquez')">
+                <div class="artist-image" data-name="ELENA VASQUEZ"></div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Elena Vasquez</h3>
+                    <p class="artist-specialty">Contemporary Abstract</p>
+                    <p class="artist-description">Elena explores the intersection of color and emotion through bold geometric forms and dynamic palettes that capture human experience.</p>
+                    <div class="artist-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">25+</span>
+                            <span class="stat-label">Exhibitions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">150+</span>
+                            <span class="stat-label">Works Sold</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">8</span>
+                            <span class="stat-label">Years Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="contemporary sculpture" onclick="openArtistPage('marcus-chen')">
+                <div class="artist-image" data-name="MARCUS CHEN"></div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Marcus Chen</h3>
+                    <p class="artist-specialty">Contemporary Sculpture</p>
+                    <p class="artist-description">Marcus creates stunning three-dimensional works that challenge perception and explore the relationship between space and form.</p>
+                    <div class="artist-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">18</span>
+                            <span class="stat-label">Exhibitions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">89</span>
+                            <span class="stat-label">Works Sold</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">12</span>
+                            <span class="stat-label">Years Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="photography contemporary" onclick="openArtistPage('sophie-laurent')">
+                <div class="artist-image" data-name="SOPHIE LAURENT"></div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Sophie Laurent</h3>
+                    <p class="artist-specialty">Fine Art Photography</p>
+                    <p class="artist-description">Sophie captures the beauty in everyday moments, transforming ordinary scenes into extraordinary visual narratives.</p>
+                    <div class="artist-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">32</span>
+                            <span class="stat-label">Exhibitions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">200+</span>
+                            <span class="stat-label">Works Sold</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">15</span>
+                            <span class="stat-label">Years Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="abstract" onclick="openArtistPage('david-morrison')">
+                <div class="artist-image" data-name="DAVID MORRISON"></div>
+                <div class="artist-info">
+                    <h3 class="artist-name">David Morrison</h3>
+                    <p class="artist-specialty">Abstract Expressionism</p>
+                    <p class="artist-description">David's powerful abstract works convey deep emotional states through gestural brushwork and rich color compositions.</p>
+                    <div class="artist-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">41</span>
+                            <span class="stat-label">Exhibitions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">300+</span>
+                            <span class="stat-label">Works Sold</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">22</span>
+                            <span class="stat-label">Years Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="contemporary" onclick="openArtistPage('aria-nakamura')">
+                <div class="artist-image" data-name="ARIA NAKAMURA"></div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Aria Nakamura</h3>
+                    <p class="artist-specialty">Mixed Media Contemporary</p>
+                    <p class="artist-description">Aria combines traditional techniques with modern materials to create thought-provoking pieces that bridge cultures and time.</p>
+                    <div class="artist-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">29</span>
+                            <span class="stat-label">Exhibitions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">180</span>
+                            <span class="stat-label">Works Sold</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">11</span>
+                            <span class="stat-label">Years Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-card" data-category="sculpture" onclick="openArtistPage('alessandro-rossi')">
+                <div class="artist-image" data-name="ALESSANDRO ROSSI"></div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Alessandro Rossi</h3>
+                    <p class="artist-specialty">Bronze Sculpture</p>
+                    <p class="artist-description">Alessandro's masterful bronze sculptures celebrate the human form with classical precision and contemporary sensibility.</p>
+                    <div class="artist-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">35</span>
+                            <span class="stat-label">Exhibitions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">95</span>
+                            <span class="stat-label">Works Sold</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">18</span>
+                            <span class="stat-label">Years Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section class="cta-section">
+        <h2 class="cta-title">Interested in an Artist's Work?</h2>
+        <p class="cta-description">Contact our gallery to learn more about available pieces, upcoming exhibitions, or to schedule a private viewing.</p>
+        <a href="#contact" class="cta-button">Contact Us</a>
+    </section>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Staggered animation for artist cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.animationDelay = `${index * 0.1}s`;
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.artist-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const artistCards = document.querySelectorAll('.artist-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                artistCards.forEach(card => {
+                    if (filterValue === 'all') {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        const categories = card.getAttribute('data-category');
+                        if (categories.includes(filterValue)) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 100);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    }
+                });
+            });
+        });
+
+        // Function to handle artist page navigation
+        function openArtistPage(artistSlug) {
+            // In a real application, this would navigate to the artist's individual page
+            // For now, we'll show an alert with the artist's slug
+            alert(`Navigating to ${artistSlug}'s spotlight page...`);
+            
+            // Example of how you might handle routing:
+            // window.location.href = `/artists/${artistSlug}`;
+            // or for SPA: history.pushState(null, null, `/artists/${artistSlug}`);
+        }
+
+        // Enhanced hover effects
+        document.querySelectorAll('.artist-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
