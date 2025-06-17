@@ -4,13 +4,7 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            padding-top: 80px; /* Account for fixed navbar */
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
+      
 
         .navbar {
           background-color: rgb(0, 0, 0);
@@ -21,6 +15,7 @@
             width: 100%;
             z-index: 1000;
             transition: all 0.3s ease;
+            color: white;
         }
 
         .nav-container {
@@ -37,7 +32,7 @@
         .nav-logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #333;
+            color: #6d6d6d;
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -74,7 +69,7 @@
 
         .nav-menu a {
             text-decoration: none;
-            color: #555;
+            color: white;
             font-weight: 500;
             font-size: 1rem;
             padding: 10px 0;
@@ -227,7 +222,7 @@
                 right: -250px;
                 top: 0;
                 flex-direction: column;
-                background: rgba(13, 13, 13, 0.98);
+                background: rgb(0, 0, 0);
                 backdrop-filter: blur(20px);
                 width: 250px;
                 height: 100vh;

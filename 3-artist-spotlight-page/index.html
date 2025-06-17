@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: white;
+            background: #0a0a0a;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -30,6 +30,9 @@
             gap: 60px;
             align-items: center;
             min-height: 70vh;
+            background: #000000;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
         }
 
         .hero-content {
@@ -40,13 +43,13 @@
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #333;
+            color: white;
             line-height: 1.1;
         }
 
         .artist-title {
             font-size: 1.3rem;
-            color: #667eea;
+            color: #4ecdc4;
             margin-bottom: 2rem;
             font-weight: 500;
         }
@@ -81,7 +84,7 @@
         }
 
         .main-content {
-            background: white;
+            background: #0a0a0a;
             position: relative;
             z-index: 3;
         }
@@ -90,12 +93,13 @@
             padding: 80px 5%;
             max-width: 1200px;
             margin: 0 auto;
+           
         }
 
         .section-title {
             font-size: 2.5rem;
             margin-bottom: 2rem;
-            color: #333;
+            color: #a235f6;
             position: relative;
             display: inline-block;
         }
@@ -159,7 +163,8 @@
         }
 
         .artwork-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -214,8 +219,10 @@
         }
 
         .stats-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+           background-color: black;
             color: white;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
             text-align: center;
         }
 

@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: #0a0a0a;
             color: #ffffff;
             overflow-x: hidden;
             line-height: 1.6;
@@ -29,6 +29,7 @@
             justify-content: center;
             text-align: center;
             position: relative;
+            background: #000000;
         }
 
         .hero-content {
@@ -63,20 +64,25 @@
         }
 
         .cta-button {
-            display: inline-block;
+            background: transparent;
+            color: #ffffff;
             padding: 1rem 2rem;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
+            border: 2px solid #4ecdc4;
+            border-radius: 0;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.5);
+            background: #4ecdc4;
+            color: #000000;
+            transform: translateX(5px);
         }
 
         /* Floating Elements */
